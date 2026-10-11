@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QueueLens explores service-request resolution delay risk with machine learning.">
+    <title>QueueLens | Service Intelligence</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header class="navbar">
+        <a class="logo" href="/" aria-label="QueueLens home">QueueLens<span>.</span></a>
+        <div class="nav-right">
+            <span class="nav-label">SERVICE INTELLIGENCE</span>
+            <span id="connection-pill" class="connection-pill">Connecting</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">DATA SCIENCE · MACHINE LEARNING</p>
+            <h1>See the risk.<br><span>Understand the queue.</span></h1>
+            <p class="hero-copy">
+                Explore whether a service request may take more than seven days
+                to resolve, using a model trained on historical NYC 311 data.
+            </p>
+            <div class="hero-tags">
+                <span>Random Forest</span><span>Chronological evaluation</span><span>Research prototype</span>
+            </div>
+        </section>
+
+        <section class="summary-grid" aria-label="Project summary">
+            <article class="summary-card">
+                <span class="summary-label">PREDICTION TARGET</span>
+                <strong>&gt; 7 days</strong>
+                <p>Long-resolution request</p>
+            </article>
+            <article class="summary-card">
+                <span class="summary-label">MODEL</span>
+                <strong>Random Forest</strong>
+                <p>Scikit-learn pipeline</p>
+            </article>
+            <article class="summary-card">
+                <span class="summary-label">DATA SOURCE</span>
+                <strong>NYC 311</strong>
+                <p>Historical service requests</p>
+            </article>
+        </section>
+
+        <section class="workspace">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">RISK EXPLORER</p>
+                    <h2>Evaluate a service request</h2>
+                    <p class="muted">Choose the request attributes, then ask the model for an estimate.</p>
+                </div>
+                <span class="step-badge">01 / INPUT</span>
+            </div>
+
+            <form id="prediction-form">
+                <div class="form-grid">
+                    <label>
+                        Agency
+                        <select id="agency" name="agency" required>
+                            <option value="">Loading agencies...</option>
+                        </select>
+                    </label>
+                    <label>
+                        Complaint type
+                        <select id="complaint_type" name="complaint_type" required>
+                            <option value="">Loading complaint types...</option>
+                        </select>
+                    </label>
+                    <label>
+                        Borough
+                        <select id="borough" name="borough" required>
+                            <option value="">Loading boroughs...</option>
+                        </select>
+                    </label>
+                    <label>
+                        Created hour <span class="field-hint">(0–23)</span>
+                        <input id="created_hour" name="created_hour" type="number" min="0" max="23" value="12"
+                            required>
+                    </label>
+                    <label>
+                        Created day <span class="field-hint">(1–31)</span>
+                        <input id="created_day" name="created_day" type="number" min="1" max="31" value="15" required>
+                    </label>
+                    <label>
+                        Created month <span class="field-hint">(1–12)</span>
+                        <input id="created_month" name="created_month" type="number" min="1" max="12" value="6"
+                            required>
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <p class="muted small">The estimate is a research signal, not an official service commitment.</p>
+                    <button id="predict-button" type="submit">Estimate delay risk <span
+                            aria-hidden="true">→</span></button>
+                </div>
+                <p id="form-error" class="error-message" role="alert"></p>
+            </form>
+        </section>
+
+        <section id="result-section" class="result-card hidden" aria-live="polite">
+            <div class="result-top">
+                <div>
+                    <p class="eyebrow">MODEL OUTPUT</p>
+                    <h2 id="result-title">Estimated risk</h2>
+                </div>
+                <span id="risk-badge" class="risk-badge">—</span>
+            </div>
+            <div class="probability-row">
+                <div>
+                    <span class="summary-label">ESTIMATED PROBABILITY</span>
+                    <strong id="probability-value">—</strong>
+                </div>
+                <div class="meter" aria-label="Estimated probability">
+                    <div id="meter-fill" class="meter-fill"></div>
+                </div>
+            </div>
+            <p id="result-message" class="result-message"></p>
+            <p id="result-disclaimer" class="disclaimer"></p>
+        </section>
+
+        <section class="note-card">
+            <div class="note-icon">i</div>
+            <div>
+                <h3>How to interpret this</h3>
+                <p>
+                    QueueLens is a portfolio research prototype. Its output depends on
+                    the training sample, feature choices, and selected threshold. It
+                    should not be used to make official service decisions.
+                </p>
+            </div>
+        </section>
+
+        <footer>
+            <span>QueueLens · A Data Science portfolio project</span>
+            <a href="https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2020-to-Present/erm2-nwe9"
+                target="_blank" rel="noopener noreferrer">NYC 311 data source ↗</a>
+        </footer>
+    </main>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+
+</html>
